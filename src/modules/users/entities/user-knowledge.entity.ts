@@ -4,35 +4,25 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
-  Column,
-  ManyToOne,
-  OneToMany,
+  Column, JoinColumn, OneToMany, ManyToOne,
 } from 'typeorm';
 // eslint-disable-next-line import/no-cycle
-import { UserKnowledgeEntity } from './user-knowledge.entity';
+import { UserEntity } from './user.entity';
 
-@Entity({ name: 'users' })
-export class UserEntity {
+@Entity({ name: 'user_knowledges' })
+export class UserKnowledgeEntity {
   @PrimaryGeneratedColumn()
   id?: number;
 
   @Column()
   name: string;
 
-  @Column()
-  cpf: string;
+  @Column({ name: 'user_id' })
+  userId: boolean;
 
-  @Column()
-  email: string;
-
-  @Column({ name: 'phone_number' })
-  phoneNumber: string;
-
-  @Column()
-  status: boolean;
-
-  @OneToMany(() => UserKnowledgeEntity, (knowledges) => knowledges.user, { cascade: true })
-  knowledges?: UserKnowledgeEntity[];
+  @ManyToOne(() => UserEntity, (user) => user.knowledges)
+  @JoinColumn({ name: 'user_id' })
+  user?: UserEntity;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt?: Date;

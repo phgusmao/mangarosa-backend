@@ -16,15 +16,15 @@ export class UsersService {
 
   async findAll(): Promise<UserInterface[]> {
     try {
-      return await this.usersRepository.find();
+      return await this.usersRepository.find({ relations: ['knowledges'] });
     } catch (error) {
-      throw new HttpException({ message: 'Não foi possível encontrar os perfis de acesso.' }, HttpStatus.BAD_REQUEST);
+      throw new HttpException({ message: 'Não foi possível encontrar os usuários.' }, HttpStatus.BAD_REQUEST);
     }
   }
 
   async findOne(id: number): Promise<UserInterface> {
     try {
-      return await this.usersRepository.findOneOrFail(id);
+      return await this.usersRepository.findOneOrFail(id, { relations: ['knowledges'] });
     } catch (error) {
       throw new HttpException({ message: 'Não foi possível encontrar o usuário.' }, HttpStatus.BAD_REQUEST);
     }
@@ -67,6 +67,7 @@ export class UsersService {
 
       return { user, message: 'O usuário foi criado com sucesso.' };
     } catch (error) {
+      console.log(error);
       throw new HttpException({ message: 'Não foi possível criar o usuário.' }, HttpStatus.BAD_REQUEST);
     }
   }
@@ -85,7 +86,7 @@ export class UsersService {
 
   async delete(id: number): Promise<{ message: string }> {
     try {
-      await this.usersRepository.softDelete(id);
+      await this.usersRepository.delete(id);
       return { message: 'O usuário foi removido com sucesso' };
     } catch (error) {
       throw new HttpException({ message: 'Não foi possível excluir o usuário.' }, HttpStatus.BAD_REQUEST);

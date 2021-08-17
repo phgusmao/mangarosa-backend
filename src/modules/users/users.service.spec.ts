@@ -89,7 +89,7 @@ describe('UsersService', () => {
 
   it('submitted should be true when delete user', async () => {
     const returnMessage = { message: 'O usuário foi removido com sucesso' };
-    mockRepository.softDelete.mockResolvedValue(user);
+    mockRepository.delete.mockResolvedValue(user);
     await expect(service.delete(id)).resolves.toEqual(returnMessage);
   });
 
@@ -149,7 +149,7 @@ describe('UsersService', () => {
 
   it('should return an message error of delete user', async () => {
     const returnMessage = { message: 'Não foi possível excluir o usuário.' };
-    mockRepository.softDelete.mockRejectedValue(
+    mockRepository.delete.mockRejectedValue(
       new HttpException(returnMessage, HttpStatus.BAD_GATEWAY),
     );
     await expect(service.delete(id)).rejects.toThrow('Não foi possível excluir o usuário.');
