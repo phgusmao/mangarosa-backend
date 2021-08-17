@@ -4,7 +4,9 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
-  Column, JoinColumn, OneToMany, ManyToOne,
+  Column,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 // eslint-disable-next-line import/no-cycle
 import { UserEntity } from './user.entity';

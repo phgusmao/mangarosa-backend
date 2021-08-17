@@ -27,7 +27,7 @@ export class UserCreateDto {
 
   @IsNotEmpty({ message: 'O campo Número de Telefone é obrigatório.' })
   @Validate(UsersPhoneNumberAlreadyExist, {
-    message: 'Já existe um usuário com este Número de Telefone.'
+    message: 'Já existe um usuário com este Número de Telefone.',
   })
   phoneNumber: string;
 
