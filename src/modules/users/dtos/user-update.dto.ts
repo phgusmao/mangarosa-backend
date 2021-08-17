@@ -1,18 +1,37 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  Validate,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { UserKnowledgeDto } from './user-knowledge.dto';
+import { UsersCpfAlreadyExist } from '../validate/users-cpf-already-exist.contraint';
+import { UsersEmailAlreadyExist } from '../validate/users-email-already-exist.contraint';
+import { UsersPhoneNumberAlreadyExist } from '../validate/users-phone-number-already-exist.contraint';
 
 export class UserUpdateDto {
-  @IsNotEmpty({ message: 'O campo nome é obrigatório.' })
+  @IsNotEmpty({ message: 'O campo de ID é obrigátorio.' })
+  id: number;
+
+  @IsNotEmpty({ message: 'O campo Nome é obrigatório.' })
   name: string;
 
-  @IsNotEmpty({ message: 'O campo cpf é obrigatório.' })
+  @IsNotEmpty({ message: 'O campo CPF é obrigatório.' })
+  @Validate(UsersCpfAlreadyExist, { message: 'Já existe um usuário com este CPF.' })
   cpf: string;
 
-  @IsNotEmpty({ message: 'O campo email é obrigatório.' })
+  @IsNotEmpty({ message: 'O campo E-mail é obrigatório.' })
+  @Validate(UsersEmailAlreadyExist, { message: 'Já existe um usuário com este E-mail.' })
   email: string;
 
-  @IsNotEmpty({ message: 'O campo número de telefone é obrigatório.' })
+  @IsNotEmpty({ message: 'O campo Número de Telefone é obrigatório.' })
+  @Validate(UsersPhoneNumberAlreadyExist, {
+    message: 'Já existe um usuário com este Número de Telefone.'
+  })
   phoneNumber: string;
 
   @IsOptional()

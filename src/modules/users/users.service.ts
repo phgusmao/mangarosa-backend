@@ -30,15 +30,30 @@ export class UsersService {
     }
   }
 
-  async findByName(name: string, user: UserInterface): Promise<UserInterface> {
+  async findByCpf(cpf: string, user: UserInterface): Promise<UserInterface> {
     try {
       const id = user.id || 0;
       return await this.usersRepository.findOne({
         where: {
-          name,
+          cpf,
           id: Not(id),
         },
-        select: ['name'],
+        select: ['cpf'],
+      });
+    } catch (error) {
+      throw new HttpException({ message: 'Não foi possível encontrar o usuário.' }, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  async findByPhoneNumber(phoneNumber: string, user: UserInterface): Promise<UserInterface> {
+    try {
+      const id = user.id || 0;
+      return await this.usersRepository.findOne({
+        where: {
+          phoneNumber,
+          id: Not(id),
+        },
+        select: ['phoneNumber'],
       });
     } catch (error) {
       throw new HttpException({ message: 'Não foi possível encontrar o usuário.' }, HttpStatus.NOT_FOUND);
@@ -67,7 +82,6 @@ export class UsersService {
 
       return { user, message: 'O usuário foi criado com sucesso.' };
     } catch (error) {
-      console.log(error);
       throw new HttpException({ message: 'Não foi possível criar o usuário.' }, HttpStatus.BAD_REQUEST);
     }
   }
